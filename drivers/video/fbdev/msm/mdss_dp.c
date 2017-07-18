@@ -2429,7 +2429,7 @@ static void mdss_dp_hdcp_cb(void *ptr, enum hdcp_states status)
 	dp->hdcp_status = status;
 
 	if (dp->alt_mode.dp_status.hpd_high)
-		queue_delayed_work(dp->workq, &dp->hdcp_cb_work, HZ/4);
+		queue_delayed_work(dp->workq, &dp->hdcp_cb_work, msecs_to_jiffies(250));
 }
 
 static int mdss_dp_hdcp_init(struct mdss_panel_data *pdata)
@@ -3029,7 +3029,7 @@ static void mdss_dp_mainlink_push_idle(struct mdss_panel_data *pdata)
 {
 	bool cable_connected;
 	struct mdss_dp_drv_pdata *dp_drv = NULL;
-	const int idle_pattern_completion_timeout_ms = 3 * HZ / 100;
+	const int idle_pattern_completion_timeout_ms = 30;
 
 	dp_drv = container_of(pdata, struct mdss_dp_drv_pdata,
 				panel_data);
@@ -3059,7 +3059,7 @@ static void mdss_dp_mainlink_push_idle(struct mdss_panel_data *pdata)
 	reinit_completion(&dp_drv->idle_comp);
 	mdss_dp_state_ctrl(&dp_drv->ctrl_io, ST_PUSH_IDLE);
 	if (!wait_for_completion_timeout(&dp_drv->idle_comp,
-			idle_pattern_completion_timeout_ms))
+			msecs_to_jiffies(idle_pattern_completion_timeout_ms)))
 		pr_warn("PUSH_IDLE pattern timedout\n");
 
 	mutex_unlock(&dp_drv->train_mutex);
@@ -3159,7 +3159,7 @@ static int mdss_dp_event_handler(struct mdss_panel_data *pdata,
 
 			dp->hdcp_status = HDCP_STATE_AUTHENTICATING;
 			queue_delayed_work(dp->workq,
-				&dp->hdcp_cb_work, HZ / 2);
+				&dp->hdcp_cb_work, msecs_to_jiffies(500));
 		}
 		break;
 	case MDSS_EVENT_POST_PANEL_ON:
@@ -3599,7 +3599,7 @@ static void mdss_dp_reset_sw_state(struct mdss_dp_drv_pdata *dp)
 	 */
 	if (atomic_read(&dp->notification_pending)) {
 		pr_debug("waiting for the pending notitfication\n");
-		ret = wait_for_completion_timeout(&dp->notification_comp, HZ);
+		ret = wait_for_completion_timeout(&dp->notification_comp, msecs_to_jiffies(1000));
 		if (ret <= 0) {
 			pr_err("%s timed out\n",
 				mdss_dp_notification_status_to_string(
@@ -3754,7 +3754,7 @@ static inline void mdss_dp_link_maintenance(struct mdss_dp_drv_pdata *dp,
 		int ret;
 
 		pr_debug("waiting for the disconnect to finish\n");
-		ret = wait_for_completion_timeout(&dp->notification_comp, HZ);
+		ret = wait_for_completion_timeout(&dp->notification_comp, msecs_to_jiffies(1000));
 		if (ret <= 0) {
 			pr_warn("NOTIFY_DISCONNECT_IRQ_HPD timed out\n");
 			return;
@@ -3985,7 +3985,7 @@ static int mdss_dp_process_downstream_port_status_change(
 		int ret;
 
 		pr_debug("waiting for the disconnect to finish\n");
-		ret = wait_for_completion_timeout(&dp->notification_comp, HZ);
+		ret = wait_for_completion_timeout(&dp->notification_comp, msecs_to_jiffies(1000));
 		if (ret <= 0) {
 			pr_warn("NOTIFY_DISCONNECT_IRQ_HPD timed out\n");
 			return -ETIMEDOUT;

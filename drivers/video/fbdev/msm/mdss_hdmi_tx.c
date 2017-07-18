@@ -1632,7 +1632,8 @@ static void hdmi_tx_hdcp_cb(void *ptr, enum hdcp_states status)
 
 	hdmi_ctrl->hdcp_status = status;
 
-	queue_delayed_work(hdmi_ctrl->workq, &hdmi_ctrl->hdcp_cb_work, HZ/4);
+	queue_delayed_work(hdmi_ctrl->workq, &hdmi_ctrl->hdcp_cb_work,
+						msecs_to_jiffies(250));
 }
 
 static inline bool hdmi_tx_is_stream_shareable(struct hdmi_tx_ctrl *hdmi_ctrl)
@@ -2494,7 +2495,7 @@ static int hdmi_tx_notify_events(struct hdmi_tx_ctrl *hdmi_ctrl, int val)
 	if (atomic_read(&hdmi_ctrl->notification_pending)) {
 		pr_debug("%s: wait for previous event to finish\n", __func__);
 		rc = wait_for_completion_timeout(
-				&hdmi_ctrl->notification_comp, HZ);
+				&hdmi_ctrl->notification_comp, msecs_to_jiffies(1000));
 		if (rc <= 0) {
 			pr_debug("%s: wait for pending notification timed out\n",
 					__func__);
@@ -4372,7 +4373,7 @@ static int hdmi_tx_post_evt_handle_resume(struct hdmi_tx_ctrl *hdmi_ctrl)
 
 		reinit_completion(&hdmi_ctrl->hpd_int_done);
 		timeout = wait_for_completion_timeout(
-			&hdmi_ctrl->hpd_int_done, HZ/10);
+			&hdmi_ctrl->hpd_int_done, msecs_to_jiffies(100));
 		if (!timeout) {
 			pr_debug("cable removed during suspend\n");
 			hdmi_tx_notify_events(hdmi_ctrl, 0);
