@@ -2363,9 +2363,9 @@ static int qpnp_wled_config(struct qpnp_wled *wled)
 			reg |= ~QPNP_WLED_GATE_DRV_MASK;
 
 			rc = qpnp_wled_write_reg(wled,
-			QPNP_WLED_MOD_EN_REG(wled->sink_base, i), reg);
-			if (rc)
-				return rc;
+		QPNP_WLED_MOD_EN_REG(wled->sink_base, i), reg);
+		if (rc)
+			return rc;
 
 		/* SINK EN */
 		temp = wled->strings[i] + QPNP_WLED_CURR_SINK_SHIFT;
@@ -2943,7 +2943,7 @@ static int qpnp_wled_probe(struct platform_device *pdev)
 	wled = devm_kzalloc(&pdev->dev, sizeof(*wled), GFP_KERNEL);
 	if (!wled)
 		return -ENOMEM;
-		wled->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+	wled->regmap = dev_get_regmap(pdev->dev.parent, NULL);
 		if (!wled->regmap) {
 			dev_err(&pdev->dev, "Couldn't get parent's regmap\n");
 			return -EINVAL;

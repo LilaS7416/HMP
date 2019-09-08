@@ -1558,17 +1558,17 @@ static int cpr3_regulator_init_ctrl(struct cpr3_controller *ctrl)
 
 	if (ctrl->ctrl_type == CPR_CTRL_TYPE_CPR4) {
 		rc = cpr3_regulator_init_cpr4(ctrl);
-		if (rc) {
-			cpr3_err(ctrl, "CPR4-specific controller initialization failed, rc=%d\n",
-				rc);
-			return rc;
+	if (rc) {
+		cpr3_err(ctrl, "CPR4-specific controller initialization failed, rc=%d\n",
+			rc);
+		return rc;
 		}
 	} else if (ctrl->ctrl_type == CPR_CTRL_TYPE_CPRH) {
 		rc = cpr3_regulator_init_cprh(ctrl);
-		if (rc) {
-			cpr3_err(ctrl, "CPRh-specific controller initialization failed, rc=%d\n",
-				 rc);
-			return rc;
+	if (rc) {
+		cpr3_err(ctrl, "CPRh-specific controller initialization failed, rc=%d\n",
+			rc);
+		return rc;
 		}
 	}
 
@@ -6489,9 +6489,9 @@ int cpr3_regulator_unregister(struct cpr3_controller *ctrl)
 
 	if (ctrl->ctrl_type == CPR_CTRL_TYPE_CPR4)
 		rc = cpr3_ctrl_clear_cpr4_config(ctrl);
-		if (rc)
-			cpr3_err(ctrl, "failed to clear CPR4 configuration,rc=%d\n",
-				rc);
+	if (rc)
+		cpr3_err(ctrl, "failed to clear CPR4 configuration,rc=%d\n",
+			rc);
 
 	cpr3_ctrl_loop_disable(ctrl);
 

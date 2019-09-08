@@ -301,34 +301,34 @@ static void msm_pcm_routng_cfg_matrix_map_pp(struct route_payload payload,
 		!is_custom_stereo_on)
 		return;
 
-		for (itr = 0; itr < payload.num_copps; itr++) {
-			if ((payload.port_id[itr] != SLIMBUS_0_RX) &&
-			    (payload.port_id[itr] != RT_PROXY_PORT_001_RX)) {
+	for (itr = 0; itr < payload.num_copps; itr++) {
+		if ((payload.port_id[itr] != SLIMBUS_0_RX) &&
+			(payload.port_id[itr] != RT_PROXY_PORT_001_RX)) {
 				continue;
 			}
 
-			if (sony_custom_stereo_mode == SONY_CUSTOM_STEREO_MIX)
-				rc = msm_qti_pp_send_stereo_to_custom_stereo_cmd(
-						payload.port_id[itr],
-						payload.copp_idx[itr],
-						payload.session_id,
-						Q14_GAIN_ZERO_POINT_FIVE,
-						Q14_GAIN_ZERO_POINT_FIVE,
-						Q14_GAIN_ZERO_POINT_FIVE,
-						Q14_GAIN_ZERO_POINT_FIVE);
-			else
-				rc = msm_qti_pp_send_stereo_to_custom_stereo_cmd(
-						payload.port_id[itr],
-						payload.copp_idx[itr],
-						payload.session_id,
-						0,
-						Q14_GAIN_UNITY,
-						Q14_GAIN_UNITY,
-						0);
-			if (rc < 0)
-				pr_err("%s: err setting custom stereo\n",
-					__func__);
-		}
+	if (sony_custom_stereo_mode == SONY_CUSTOM_STEREO_MIX)
+		rc = msm_qti_pp_send_stereo_to_custom_stereo_cmd(
+			payload.port_id[itr],
+			payload.copp_idx[itr],
+			payload.session_id,
+			Q14_GAIN_ZERO_POINT_FIVE,
+			Q14_GAIN_ZERO_POINT_FIVE,
+			Q14_GAIN_ZERO_POINT_FIVE,
+			Q14_GAIN_ZERO_POINT_FIVE);
+	else
+		rc = msm_qti_pp_send_stereo_to_custom_stereo_cmd(
+			payload.port_id[itr],
+			payload.copp_idx[itr],
+			payload.session_id,
+			0,
+			Q14_GAIN_UNITY,
+			Q14_GAIN_UNITY,
+			0);
+	if (rc < 0)
+		pr_err("%s: err setting custom stereo\n",
+			__func__);
+	}
 }
 
 #define SLIMBUS_EXTPROC_RX AFE_PORT_INVALID
