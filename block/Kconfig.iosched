@@ -84,6 +84,10 @@ config BFQ_GROUP_IOSCHED
 
 	Enable hierarchical scheduling in BFQ, using the blkio
 	(cgroups-v1) or io (cgroups-v2) controller.
+	
+config IOSCHED_MAPLE
+	tristate "Maple I/O scheduler"
+	default y
 
 choice
 	prompt "Default I/O scheduler"
@@ -106,6 +110,9 @@ choice
 
 	config DEFAULT_NOOP
 		bool "No-op"
+		
+	config DEFAULT_MAPLE
+		bool "Maple" if IOSCHED_MAPLE=y
 
 endchoice
 
@@ -116,6 +123,7 @@ config DEFAULT_IOSCHED
 	default "fiops" if DEFAULT_FIOPS
 	default "zen" if DEFAULT_ZEN
 	default "noop" if DEFAULT_NOOP
+	default "maple" if DEFAULT_MAPLE
 
 endmenu
 
