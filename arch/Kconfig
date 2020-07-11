@@ -434,12 +434,14 @@ config HAVE_ARCH_WITHIN_STACK_FRAMES
 
 config THIN_ARCHIVES
 	bool
+	default n
 	help
 	  Select this if the architecture wants to use thin archives
 	  instead of ld -r to create the built-in.o files.
 	  
 config LLVM_POLLY
 	bool "Enable LLVM's polyhedral loop optimizer (Polly)"
+	default n
 	help
 	  This option enables LLVM's polyhedral loop optimizer known as Polly.
 	  Polly is able to optimize various loops throughout the kernel for
