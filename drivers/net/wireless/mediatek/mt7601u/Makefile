@@ -1,5 +1,8 @@
 ccflags-y += -D__CHECK_ENDIAN__
 
+EXTRA_CFLAGS += $(call cc-option, -g0)
+EXTRA_CFLAGS += $(call cc-option, -DNDEBUG)
+
 obj-$(CONFIG_MT7601U)	+= mt7601u.o
 
 mt7601u-objs	= \
