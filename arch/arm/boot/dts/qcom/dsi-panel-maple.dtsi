@@ -215,6 +215,9 @@
 	};
 
 	dsi_dual1_3_panel: somc,dual1_3_panel {
+		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
+		qcom,panel-allow-phy-poweroff;        
 		qcom,mdss-dsi-panel-name = "3";
 		qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
 		qcom,mdss-dsi-panel-controller = <&mdss_dsi1>;
@@ -489,7 +492,10 @@
 		};
 	};
 
-	dsi_dual1_6_panel: somc,dual1_6_panel {
+	dsi_dual1_6_panel: somc,dual1_6_panel {       
+		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
+		qcom,panel-allow-phy-poweroff;
 		qcom,mdss-dsi-panel-name = "6";
 		qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
 		qcom,mdss-dsi-panel-controller = <&mdss_dsi1>;
@@ -586,6 +592,9 @@
 
 	/* Default */
 	dsi_dual0_default_panel: somc,dual0_default_panel {
+		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
+		qcom,panel-allow-phy-poweroff;
 		qcom,mdss-dsi-panel-name = "default";
 		qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
 		qcom,mdss-dsi-panel-controller = <&mdss_dsi0>;
@@ -749,6 +758,9 @@
 	};
 
 	dsi_dual1_default_panel: somc,dual1_default_panel {
+		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
+		qcom,panel-allow-phy-poweroff;
 		qcom,mdss-dsi-panel-name = "default";
 		qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
 		qcom,mdss-dsi-panel-controller = <&mdss_dsi1>;
