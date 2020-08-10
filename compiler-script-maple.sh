@@ -1,9 +1,31 @@
-make O=out ARCH=arm64 pop-kernel-maple_defconfig
+echo
+echo "Setup"
+echo 
 
-PATH="/home/andrea/linux-x86/clang-r383902/bin:/home/andrea/aarch64-linux-android-4.9/bin:/home/andrea/arm-linux-androideabi-4.9/bin:${PATH}" \
-make -j$(nproc --all) O=out \
-                      ARCH=arm64 \
-                      CC=clang \
-                      CLANG_TRIPLE=aarch64-linux-gnu- \
-                      CROSS_COMPILE=aarch64-linux-android- \
-                      CROSS_COMPILE_ARM32=arm-linux-androideabi-
+mkdir -p out
+export ARCH=arm64
+export SUBARCH=arm64
+make O=out clean
+make O=out mrproper
+
+echo
+echo "Issue Build Commands"
+echo
+
+export CLANG_PATH=/home/andrea/linux-x86/clang-r383902/bin
+export PATH=${CLANG_PATH}:${PATH}
+export CLANG_TRIPLE=aarch64-linux-gnu-
+export CROSS_COMPILE=/home/andrea/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+export CROSS_COMPILE_ARM32=/home/andrea/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
+
+echo
+echo "Set DEFCONFIG"
+echo 
+make CC=clang O=out pop-kernel-maple_defconfig
+
+echo
+echo "Build The Good Stuff"
+echo 
+
+make CC=clang O=out -j$(nproc --all)
+
