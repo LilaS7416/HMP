@@ -32,6 +32,7 @@
 #include <linux/msm-bus.h>
 #include <linux/pm_qos.h>
 #include <linux/dma-buf.h>
+#include <linux/display_state.h>
 
 #include "mdss.h"
 #include "mdss_panel.h"
@@ -44,6 +45,13 @@
 #endif /* CONFIG_FB_MSM_MDSS_SPECIFIC_PANEL */
 
 #define CMDLINE_DSI_CTL_NUM_STRING_LEN 2
+
+bool display_on = true;
+
+bool is_display_on()
+{
+	return display_on;
+}
 
 /* Master structure to hold all the information about the DSI/panel */
 static struct mdss_dsi_data *mdss_dsi_res;
@@ -3009,6 +3017,7 @@ static int mdss_dsi_event_handler(struct mdss_panel_data *pdata,
 		rc = mdss_dsi_post_panel_on(pdata);
 		break;
 	case MDSS_EVENT_PANEL_ON:
+        display_on = true;
 		ctrl_pdata->ctrl_state |= CTRL_STATE_MDP_ACTIVE;
 		if (ctrl_pdata->on_cmds.link_state == DSI_HS_MODE)
 			rc = mdss_dsi_unblank(pdata);
@@ -3025,6 +3034,7 @@ static int mdss_dsi_event_handler(struct mdss_panel_data *pdata,
 		if (ctrl_pdata->off_cmds.link_state == DSI_LP_MODE)
 			rc = mdss_dsi_blank(pdata, power_state);
 		rc = mdss_dsi_off(pdata, power_state);
+        display_on = false;
 		break;
 	case MDSS_EVENT_DISABLE_PANEL:
 		/* disable esd thread */
