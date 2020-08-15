@@ -28,3 +28,16 @@ echo "Build The Good Stuff"
 echo 
 
 make CC=clang O=out -j$(nproc --all)
+
+echo
+echo "Making anykernel zip"
+echo 
+
+#rm ./anykernel/poplar/zImage-dtb
+#cp ./out/arch/arm/boot/zImage-dtb ./victara-anykernel
+cp ./out.{ko} ./AnyKernel/poplar/modules/vendor/lib/modules
+#cd anykernel/poplar
+#rm ./Pop_kernel-poplar-Q-rx-x.zip
+#zip -r9 Pop_kernel-poplar-Q-rx-x.zip * -x .git README.md *placeholder
+#cd ..
+#cd ..
