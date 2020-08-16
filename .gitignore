@@ -75,10 +75,10 @@ Module.symvers
 include/config
 include/generated
 arch/*/include/generated
-Pop-kernel-poplar-Q/AnyKernel/poplar/Image.gz-dtb
-Pop-kernel-poplar-Q/AnyKernel/poplar/modules/*
-Pop-kernel-poplar-Q/AnyKernel/maple/Image.gz-dtb
-Pop-kernel-poplar-Q/AnyKernel/maple/modules/*
+./AnyKernel/poplar/Image.gz-dtb
+./AnyKernel/poplar/modules/*
+./AnyKernel/maple/Image.gz-dtb
+./AnyKernel/maple/modules/*
 
 # stgit generated dirs
 patches-*
