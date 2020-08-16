@@ -69,7 +69,7 @@ endchoice
 config CPU_QUIET_MSM
 	bool "MSM CPUquiet Driver"
 	depends on HOTPLUG_CPU && ARCH_QCOM
-	default n
+	default y
 	help
 	 This is the CPUquiet driver for MSM SoCs. It supports
 	 automatic hotplugging of CPU cores using the CPUquiet
