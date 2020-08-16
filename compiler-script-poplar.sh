@@ -33,9 +33,9 @@ echo
 echo "Making anykernel zip"
 echo 
 
-#rm ./anykernel/poplar/zImage-dtb
-#cp ./out/arch/arm/boot/zImage-dtb ./victara-anykernel
-cp ./out.{ko} ./AnyKernel/poplar/modules/vendor/lib/modules
+#rm ./anykernel/poplar/Image.gz-dtb
+#cp ./out/arch/arm/boot/Image.gz-dtb ./anykernel/poplar/
+cp ./out/*/.{ko} ./AnyKernel/poplar/modules/vendor/lib/modules
 #cd anykernel/poplar
 #rm ./Pop_kernel-poplar-Q-rx-x.zip
 #zip -r9 Pop_kernel-poplar-Q-rx-x.zip * -x .git README.md *placeholder
