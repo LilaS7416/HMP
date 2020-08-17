@@ -1,0 +1,23 @@
+on property:sys.boot_completed=1
+   
+    # Ensure mpdecision is stopped
+    stop mpdecision
+
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 518400
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1900800
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 2112000   
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 1574400
+    write /sys/module/cpu_boost/input_boost_freq 0:1248000 1:1248000 2:1248000 3:1248000 4:902400 5:902400 6:902400 7:902400
+
+    # Multicore power saving
+    write /sys/devices/system/cpu/sched_mc_power_savings 0
+    
+    # Power efficient workqueues
+    chmod 644 /sys/module/workqueue/parameters/power_efficient
+    write /sys/module/workqueue/parameters/power_efficient "Y"
+    
+    # Disable KSM by default
+    write /sys/kernel/mm/ksm/run 0 
+    write /sys/kernel/mm/ksm/sleep_millisecs 1500
+    write /sys/kernel/mm/ksm/pages_to_scan 256
+    write /sys/kernel/mm/ksm/deferred_timer 1
