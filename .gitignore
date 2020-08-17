@@ -52,7 +52,8 @@ Module.symvers
 /System.map
 /Module.markers
 /out
-
+/AnyKernel/maple/modules
+/AnyKernel/poplar/modules
 #
 # Debian directory (make deb-pkg)
 #
@@ -75,10 +76,10 @@ Module.symvers
 include/config
 include/generated
 arch/*/include/generated
-./AnyKernel/poplar/Image.gz-dtb
-./AnyKernel/poplar/modules/*
-./AnyKernel/maple/Image.gz-dtb
-./AnyKernel/maple/modules/*
+AnyKernel/poplar/Image.gz-dtb
+AnyKernel/maple/Image.gz-dtb
+AnyKernel/poplar/*.zip
+AnyKernel/maple/*.zip
 
 # stgit generated dirs
 patches-*
