@@ -21,3 +21,6 @@ on property:sys.boot_completed=1
     write /sys/kernel/mm/ksm/sleep_millisecs 1500
     write /sys/kernel/mm/ksm/pages_to_scan 256
     write /sys/kernel/mm/ksm/deferred_timer 1
+    
+    # Restart mpdecision
+    start mpdecision
