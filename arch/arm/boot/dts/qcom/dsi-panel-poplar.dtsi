@@ -36,7 +36,10 @@
 		qcom,mdss-dsi-v-front-porch = <227>;
 		qcom,mdss-pan-physical-width-dimension = <64>;
 		qcom,mdss-pan-physical-height-dimension = <114>;
-		qcom,mdss-dsi-panel-framerate = <60>;
+		qcom,mdss-dsi-panel-framerate = <144>;
+		qcom,mdss-dsi-max-refresh-rate = <144>;
+		qcom,mdss-dsi-min-refresh-rate = <144>;
+		qcom,ulps-enabled;
 		qcom,mdss-dsi-virtual-channel-id = <0>;
 		qcom,mdss-dsi-stream = <0>;
 		qcom,mdss-dsi-h-sync-skew = <0>;
@@ -89,10 +92,15 @@
 		qcom,mdss-dsi-lane-1-state;
 		qcom,mdss-dsi-lane-2-state;
 		qcom,mdss-dsi-lane-3-state;
-		qcom,mdss-dsi-panel-timings = [00 1B 06 06 0B 11 05 07 05 03 04 00];
-		qcom,mdss-dsi-t-clk-post = <0x07>;
-		qcom,mdss-dsi-t-clk-pre = <0x29>;
-
+		qcom,mdss-dsi-panel-timings = [E6 38 26 00 68 6E 2A 3C 2C 03 04 00];
+		qcom,mdss-dsi-t-clk-post = <0x1B>;
+		qcom,mdss-dsi-t-clk-pre = <0x2B>;
+        qcom,mdss-dsi-panel-timings-phy-v2 = [
+						24 1f 08 09 05 03 04 a0
+						24 1f 08 09 05 03 04 a0
+						24 1f 08 09 05 03 04 a0
+						24 1f 08 09 05 03 04 a0
+						24 1b 08 09 05 03 04 a0];
 		qcom,panel-supply-entries = <&dsi_panel_pwr_supply_hybrid_incell>;
 		qcom,mdss-dsi-lp11-init;
 		qcom,mdss-dsi-bl-min-level = <1>;
@@ -105,8 +113,7 @@
 		qcom,mdss-dsi-panel-peak-brightness = <7000000>;
 		qcom,mdss-dsi-panel-blackness-level = <4646>;
 
-
-		qcom,mdss-dsi-panel-clockrate = <899000000>;
+        qcom,mdss-dsi-panel-clockrate = <1199000000>;
 
 		somc,lcd-id-adc = <565000 653000>;
 		somc,mdss-dsi-master;
@@ -143,23 +150,10 @@
 		somc,qpnp-ibb-full-pull-down;
 
 		somc,ewu-wait-after-touch-reset = <40>;
-
-		somc,change-fps-enable;
-		somc,change-fps-panel-type = "hybrid_incell_type";
-		somc,change-fps-panel-mode = "dynamic_mode";
-		somc,change-fps-command =
-				[29 01 00 00 00 00 02 B0 04
-				 29 01 00 00 00 00 02 D6 01
-				 29 01 00 00 00 00 08 C2 01 07 80 04 00 04 F0];
 		somc,driver-ic-rtn = <83>;
 		somc,driver-ic-vdisp = <1920>;
 		somc,driver-ic-vtouch = <6818000>;
 		somc,driver-ic-mclk = <61539>;
-		somc,change-fps-send-pos = <2 4>;
-		somc,change-fps-send-byte = <4>;
-		somc,change-fps-porch-mask-pos = <3>;
-		somc,change-fps-porch-mask = <0xF0>;
-		somc,change-fps-porch-range = <4 511>;
 
 		somc,mdss-dsi-disp-on-in-hs = <0>;
 		somc,mdss-dsi-wait-time-before-post-on-cmd = <0>;
@@ -180,7 +174,7 @@
 		qcom,mdss-dsi-v-front-porch = <227>;
 		qcom,mdss-pan-physical-width-dimension = <64>;
 		qcom,mdss-pan-physical-height-dimension = <114>;
-		qcom,mdss-dsi-panel-framerate = <60>;
+		qcom,mdss-dsi-panel-framerate = <120>;
 		qcom,mdss-dsi-virtual-channel-id = <0>;
 		qcom,mdss-dsi-stream = <0>;
 		qcom,mdss-dsi-h-sync-skew = <0>;
