@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018, 2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -272,7 +272,7 @@ static void __iomem *debug_base;
 #define ACD_REG_RELATIVE_ADDR_BITMASK(addr) \
 			(1 << (ACD_REG_RELATIVE_ADDR(addr)))
 
-#define FIXDIV(div) ((int)div ? (2 * (div) - 1) : (0))
+#define FIXDIV(div) (div ? (2 * (div) - 1) : (0))
 
 #define F(f, s, div, m, n) \
 	{ \
@@ -866,6 +866,7 @@ static struct clk_osm pwrcl_clk = {
 	.cpu_reg_mask = 0x3,
 	.c = {
 		.dbg_name = "pwrcl_clk",
+		.flags = CLKFLAG_NO_RATE_CACHE,
 		.ops = &clk_ops_cpu_osm,
 		.parent = &xo_ao.c,
 		CLK_INIT(pwrcl_clk.c),
@@ -877,6 +878,7 @@ static struct clk_osm perfcl_clk = {
 	.cpu_reg_mask = 0x103,
 	.c = {
 		.dbg_name = "perfcl_clk",
+		.flags = CLKFLAG_NO_RATE_CACHE,
 		.ops = &clk_ops_cpu_osm,
 		.parent = &xo_ao.c,
 		CLK_INIT(perfcl_clk.c),
