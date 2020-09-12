@@ -51,6 +51,7 @@ Module.symvers
 /vmlinuz
 /System.map
 /Module.markers
+/out
 
 #
 # Debian directory (make deb-pkg)
@@ -74,6 +75,12 @@ Module.symvers
 include/config
 include/generated
 arch/*/include/generated
+AnyKernel3/poplar/Image.gz-dtb
+AnyKernel3/poplar/*.zip
+AnyKernel3/poplar/modules/*
+AnyKernel3/maple/Image.gz-dtb
+AnyKernel3/maple/*.zip
+AnyKernel3/maple/modules/*
 
 # stgit generated dirs
 patches-*
