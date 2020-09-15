@@ -77,6 +77,62 @@
 
 		qcom,mdss-dsi-panel-clockrate = <899000000>;
 
+		somc,lcd-id-adc = <565000 653000>;
+		somc,mdss-dsi-master;
+		somc,pw-on-rst-seq = <0 15>, <1 16>, <0 15>, <1 20>;
+		somc,pw-off-rst-b-seq = <0 11>;
+		somc,pw-wait-after-on-vdd = <0>;
+		somc,pw-wait-after-on-vddio = <1>;
+		somc,pw-wait-after-on-vsp = <1>;
+		somc,pw-wait-after-on-vsn = <0>;
+		somc,pw-wait-after-off-vdd = <0>;
+		somc,pw-wait-after-off-vddio = <1>;
+		somc,pw-wait-after-off-vsp = <8>;
+		somc,pw-wait-after-off-vsn = <8>;
+		somc,pw-wait-after-on-touch-avdd = <1>;
+		somc,pw-wait-after-on-touch-vddio = <0>;
+		somc,pw-wait-after-on-touch-reset = <0>;
+		somc,pw-wait-after-on-touch-int-n = <10>;
+		somc,pw-wait-after-off-touch-avdd = <0>;
+		somc,pw-wait-after-off-touch-vddio = <0>;
+		somc,pw-wait-after-off-touch-reset = <11>;
+		somc,pw-wait-after-off-touch-int-n = <0>;
+		somc,pw-down-period = <300>;
+
+		somc,lab-output-voltage = <5600000>;
+		somc,ibb-output-voltage = <5600000>;
+		somc,qpnp-lab-limit-maximum-current = <200>;
+		somc,qpnp-ibb-limit-maximum-current = <800>;
+		somc,qpnp-lab-max-precharge-time = <500>;
+		somc,qpnp-lab-soft-start = <800>;
+		somc,qpnp-ibb-discharge-resistor = <300>;
+		somc,qpnp-lab-pull-down-enable;
+		somc,qpnp-lab-full-pull-down;
+		somc,qpnp-ibb-pull-down-enable;
+		somc,qpnp-ibb-full-pull-down;
+
+		somc,ewu-wait-after-touch-reset = <40>;
+
+		somc,change-fps-enable;
+		somc,change-fps-panel-type = "hybrid_incell_type";
+		somc,change-fps-panel-mode = "dynamic_mode";
+		somc,change-fps-command =
+				[29 01 00 00 00 00 02 B0 04
+				 29 01 00 00 00 00 02 D6 01
+				 29 01 00 00 00 00 08 C2 01 07 80 04 00 04 F0];
+		somc,driver-ic-rtn = <83>;
+		somc,driver-ic-vdisp = <1920>;
+		somc,driver-ic-vtouch = <6818000>;
+		somc,driver-ic-mclk = <61539>;
+		somc,change-fps-send-pos = <2 4>;
+		somc,change-fps-send-byte = <4>;
+		somc,change-fps-porch-mask-pos = <3>;
+		somc,change-fps-porch-mask = <0xF0>;
+		somc,change-fps-porch-range = <4 511>;
+
+		somc,mdss-dsi-disp-on-in-hs = <0>;
+		somc,mdss-dsi-wait-time-before-post-on-cmd = <0>;
+
 		qcom,dynamic-mode-switch-enabled;
 		qcom,dynamic-mode-switch-type = "dynamic-resolution-switch-immediate";
 		qcom,mdss-dsi-display-timings {
@@ -184,61 +240,6 @@
 			};
 		};
 
-		somc,lcd-id-adc = <565000 653000>;
-		somc,mdss-dsi-master;
-		somc,pw-on-rst-seq = <0 15>, <1 16>, <0 15>, <1 20>;
-		somc,pw-off-rst-b-seq = <0 11>;
-		somc,pw-wait-after-on-vdd = <0>;
-		somc,pw-wait-after-on-vddio = <1>;
-		somc,pw-wait-after-on-vsp = <1>;
-		somc,pw-wait-after-on-vsn = <0>;
-		somc,pw-wait-after-off-vdd = <0>;
-		somc,pw-wait-after-off-vddio = <1>;
-		somc,pw-wait-after-off-vsp = <8>;
-		somc,pw-wait-after-off-vsn = <8>;
-		somc,pw-wait-after-on-touch-avdd = <1>;
-		somc,pw-wait-after-on-touch-vddio = <0>;
-		somc,pw-wait-after-on-touch-reset = <0>;
-		somc,pw-wait-after-on-touch-int-n = <10>;
-		somc,pw-wait-after-off-touch-avdd = <0>;
-		somc,pw-wait-after-off-touch-vddio = <0>;
-		somc,pw-wait-after-off-touch-reset = <11>;
-		somc,pw-wait-after-off-touch-int-n = <0>;
-		somc,pw-down-period = <300>;
-
-		somc,lab-output-voltage = <5600000>;
-		somc,ibb-output-voltage = <5600000>;
-		somc,qpnp-lab-limit-maximum-current = <200>;
-		somc,qpnp-ibb-limit-maximum-current = <800>;
-		somc,qpnp-lab-max-precharge-time = <500>;
-		somc,qpnp-lab-soft-start = <800>;
-		somc,qpnp-ibb-discharge-resistor = <300>;
-		somc,qpnp-lab-pull-down-enable;
-		somc,qpnp-lab-full-pull-down;
-		somc,qpnp-ibb-pull-down-enable;
-		somc,qpnp-ibb-full-pull-down;
-
-		somc,ewu-wait-after-touch-reset = <40>;
-
-		somc,change-fps-enable;
-		somc,change-fps-panel-type = "hybrid_incell_type";
-		somc,change-fps-panel-mode = "dynamic_mode";
-		somc,change-fps-command =
-				[29 01 00 00 00 00 02 B0 04
-				 29 01 00 00 00 00 02 D6 01
-				 29 01 00 00 00 00 08 C2 01 07 80 04 00 04 F0];
-		somc,driver-ic-rtn = <83>;
-		somc,driver-ic-vdisp = <1920>;
-		somc,driver-ic-vtouch = <6818000>;
-		somc,driver-ic-mclk = <61539>;
-		somc,change-fps-send-pos = <2 4>;
-		somc,change-fps-send-byte = <4>;
-		somc,change-fps-porch-mask-pos = <3>;
-		somc,change-fps-porch-mask = <0xF0>;
-		somc,change-fps-porch-range = <4 511>;
-
-		somc,mdss-dsi-disp-on-in-hs = <0>;
-		somc,mdss-dsi-wait-time-before-post-on-cmd = <0>;
 	};
 
 	/* Sharp ID9 */
@@ -293,6 +294,54 @@
 
 		qcom,mdss-dsi-panel-clockrate = <899000000>;
 
+		somc,lcd-id-adc = <0 57000>;
+		somc,mdss-dsi-master;
+		somc,pw-on-rst-seq = <0 15>, <1 20>;
+		somc,pw-off-rst-b-seq = <0 11>;
+		somc,pw-wait-after-on-vdd = <0>;
+		somc,pw-wait-after-on-vddio = <10>;
+		somc,pw-wait-after-on-vsp = <10>;
+		somc,pw-wait-after-on-vsn = <0>;
+		somc,pw-wait-after-off-vdd = <0>;
+		somc,pw-wait-after-off-vddio = <0>;
+		somc,pw-wait-after-off-vsp = <8>;
+		somc,pw-wait-after-off-vsn = <8>;
+		somc,pw-wait-after-on-touch-vddio = <0>;
+		somc,pw-wait-after-on-touch-reset = <0>;
+		somc,pw-wait-after-on-touch-int-n = <10>;
+		somc,pw-wait-after-off-touch-vddio = <0>;
+		somc,pw-wait-after-off-touch-reset = <11>;
+		somc,pw-wait-after-off-touch-int-n = <0>;
+		somc,pw-down-period = <300>;
+
+		somc,lab-output-voltage = <5600000>;
+		somc,ibb-output-voltage = <5600000>;
+		somc,qpnp-lab-limit-maximum-current = <200>;
+		somc,qpnp-ibb-limit-maximum-current = <800>;
+		somc,qpnp-lab-max-precharge-time = <500>;
+		somc,qpnp-lab-soft-start = <800>;
+		somc,qpnp-ibb-discharge-resistor = <300>;
+		somc,qpnp-lab-pull-down-enable;
+		somc,qpnp-lab-full-pull-down;
+		somc,qpnp-ibb-pull-down-enable;
+		somc,qpnp-ibb-full-pull-down;
+
+		somc,ewu-rst-seq = <0 2>, <1 5>;
+		somc,ewu-wait-after-touch-reset = <0>;
+
+		somc,change-fps-enable;
+		somc,change-fps-panel-type = "full_incell_type";
+		somc,change-fps-panel-mode = "dynamic_mode";
+		somc,change-fps-command =
+				[29 01 00 00 00 00 02 B0 04
+				 29 01 00 00 00 00 02 D6 01
+				 29 01 00 00 00 00 02 C6 59];
+		somc,driver-ic-total-porch = <11>;
+		somc,driver-ic-vdisp = <1920>;
+		somc,driver-ic-rclk = <14000000>;
+		somc,driver-ic-vtp = <682>;
+		somc,change-fps-rtn-pos = <2 1>;
+		
 		qcom,dynamic-mode-switch-enabled;
 		qcom,dynamic-mode-switch-type = "dynamic-resolution-switch-immediate";
 		qcom,mdss-dsi-display-timings {
@@ -366,54 +415,6 @@
 			qcom,mdss-dsi-t-clk-pre = <0x29>;
 			};
 		};
-
-		somc,lcd-id-adc = <0 57000>;
-		somc,mdss-dsi-master;
-		somc,pw-on-rst-seq = <0 15>, <1 20>;
-		somc,pw-off-rst-b-seq = <0 11>;
-		somc,pw-wait-after-on-vdd = <0>;
-		somc,pw-wait-after-on-vddio = <10>;
-		somc,pw-wait-after-on-vsp = <10>;
-		somc,pw-wait-after-on-vsn = <0>;
-		somc,pw-wait-after-off-vdd = <0>;
-		somc,pw-wait-after-off-vddio = <0>;
-		somc,pw-wait-after-off-vsp = <8>;
-		somc,pw-wait-after-off-vsn = <8>;
-		somc,pw-wait-after-on-touch-vddio = <0>;
-		somc,pw-wait-after-on-touch-reset = <0>;
-		somc,pw-wait-after-on-touch-int-n = <10>;
-		somc,pw-wait-after-off-touch-vddio = <0>;
-		somc,pw-wait-after-off-touch-reset = <11>;
-		somc,pw-wait-after-off-touch-int-n = <0>;
-		somc,pw-down-period = <300>;
-
-		somc,lab-output-voltage = <5600000>;
-		somc,ibb-output-voltage = <5600000>;
-		somc,qpnp-lab-limit-maximum-current = <200>;
-		somc,qpnp-ibb-limit-maximum-current = <800>;
-		somc,qpnp-lab-max-precharge-time = <500>;
-		somc,qpnp-lab-soft-start = <800>;
-		somc,qpnp-ibb-discharge-resistor = <300>;
-		somc,qpnp-lab-pull-down-enable;
-		somc,qpnp-lab-full-pull-down;
-		somc,qpnp-ibb-pull-down-enable;
-		somc,qpnp-ibb-full-pull-down;
-
-		somc,ewu-rst-seq = <0 2>, <1 5>;
-		somc,ewu-wait-after-touch-reset = <0>;
-
-		somc,change-fps-enable;
-		somc,change-fps-panel-type = "full_incell_type";
-		somc,change-fps-panel-mode = "dynamic_mode";
-		somc,change-fps-command =
-				[29 01 00 00 00 00 02 B0 04
-				 29 01 00 00 00 00 02 D6 01
-				 29 01 00 00 00 00 02 C6 59];
-		somc,driver-ic-total-porch = <11>;
-		somc,driver-ic-vdisp = <1920>;
-		somc,driver-ic-rclk = <14000000>;
-		somc,driver-ic-vtp = <682>;
-		somc,change-fps-rtn-pos = <2 1>;
 	};
 
 	/* Default */
@@ -474,6 +475,44 @@
 
 		qcom,mdss-dsi-panel-clockrate = <899000000>;
 
+		somc,lcd-id-adc = <0 0x7fffffff>;
+		somc,mdss-dsi-master;
+		somc,pw-on-rst-seq = <0 15>, <1 16>, <0 15>, <1 20>;
+		somc,pw-off-rst-b-seq = <0 11>;
+		somc,pw-wait-after-on-vdd = <0>;
+		somc,pw-wait-after-on-vddio = <1>;
+		somc,pw-wait-after-on-vsp = <1>;
+		somc,pw-wait-after-on-vsn = <0>;
+		somc,pw-wait-after-off-vdd = <0>;
+		somc,pw-wait-after-off-vddio = <1>;
+		somc,pw-wait-after-off-vsp = <8>;
+		somc,pw-wait-after-off-vsn = <8>;
+		somc,pw-wait-after-on-touch-avdd = <1>;
+		somc,pw-wait-after-on-touch-vddio = <0>;
+		somc,pw-wait-after-on-touch-reset = <0>;
+		somc,pw-wait-after-on-touch-int-n = <10>;
+		somc,pw-wait-after-off-touch-avdd = <0>;
+		somc,pw-wait-after-off-touch-vddio = <0>;
+		somc,pw-wait-after-off-touch-reset = <11>;
+		somc,pw-wait-after-off-touch-int-n = <0>;
+		somc,pw-down-period = <300>;
+
+		somc,lab-output-voltage = <5600000>;
+		somc,ibb-output-voltage = <5600000>;
+		somc,qpnp-lab-limit-maximum-current = <200>;
+		somc,qpnp-ibb-limit-maximum-current = <800>;
+		somc,qpnp-lab-max-precharge-time = <500>;
+		somc,qpnp-lab-soft-start = <800>;
+		somc,qpnp-ibb-discharge-resistor = <300>;
+		somc,qpnp-lab-pull-down-enable;
+		somc,qpnp-lab-full-pull-down;
+		somc,qpnp-ibb-pull-down-enable;
+		somc,qpnp-ibb-full-pull-down;
+
+		somc,ewu-wait-after-touch-reset = <40>;
+
+		somc,mdss-dsi-disp-on-in-hs = <0>;
+		somc,mdss-dsi-wait-time-before-post-on-cmd = <0>;
 
 		qcom,dynamic-mode-switch-enabled;
 		qcom,dynamic-mode-switch-type = "dynamic-resolution-switch-immediate";
@@ -578,44 +617,5 @@
 				qcom,mdss-tear-check-sync-cfg-height = <4326>;
 			};
 		};
-
-		somc,lcd-id-adc = <0 0x7fffffff>;
-		somc,mdss-dsi-master;
-		somc,pw-on-rst-seq = <0 15>, <1 16>, <0 15>, <1 20>;
-		somc,pw-off-rst-b-seq = <0 11>;
-		somc,pw-wait-after-on-vdd = <0>;
-		somc,pw-wait-after-on-vddio = <1>;
-		somc,pw-wait-after-on-vsp = <1>;
-		somc,pw-wait-after-on-vsn = <0>;
-		somc,pw-wait-after-off-vdd = <0>;
-		somc,pw-wait-after-off-vddio = <1>;
-		somc,pw-wait-after-off-vsp = <8>;
-		somc,pw-wait-after-off-vsn = <8>;
-		somc,pw-wait-after-on-touch-avdd = <1>;
-		somc,pw-wait-after-on-touch-vddio = <0>;
-		somc,pw-wait-after-on-touch-reset = <0>;
-		somc,pw-wait-after-on-touch-int-n = <10>;
-		somc,pw-wait-after-off-touch-avdd = <0>;
-		somc,pw-wait-after-off-touch-vddio = <0>;
-		somc,pw-wait-after-off-touch-reset = <11>;
-		somc,pw-wait-after-off-touch-int-n = <0>;
-		somc,pw-down-period = <300>;
-
-		somc,lab-output-voltage = <5600000>;
-		somc,ibb-output-voltage = <5600000>;
-		somc,qpnp-lab-limit-maximum-current = <200>;
-		somc,qpnp-ibb-limit-maximum-current = <800>;
-		somc,qpnp-lab-max-precharge-time = <500>;
-		somc,qpnp-lab-soft-start = <800>;
-		somc,qpnp-ibb-discharge-resistor = <300>;
-		somc,qpnp-lab-pull-down-enable;
-		somc,qpnp-lab-full-pull-down;
-		somc,qpnp-ibb-pull-down-enable;
-		somc,qpnp-ibb-full-pull-down;
-
-		somc,ewu-wait-after-touch-reset = <40>;
-
-		somc,mdss-dsi-disp-on-in-hs = <0>;
-		somc,mdss-dsi-wait-time-before-post-on-cmd = <0>;
 	};
 };
