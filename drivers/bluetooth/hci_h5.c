@@ -691,7 +691,7 @@ static struct sk_buff *h5_dequeue(struct hci_uart *hu)
 		h5->sleep = H5_WAKING_UP;
 		BT_DBG("Sending wakeup request");
 
-		mod_timer(&h5->timer, jiffies + HZ / 100);
+		mod_timer(&h5->timer, jiffies + msecs_to_jiffies(100));
 		return h5_prepare_pkt(hu, HCI_3WIRE_LINK_PKT, wakeup_req, 2);
 	}
 

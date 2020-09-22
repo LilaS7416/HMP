@@ -185,13 +185,13 @@ static void bluecard_enable_activity_led(struct bluecard_info *info)
 		outb(0x10 | 0x40, iobase + 0x30);
 
 		/* Stop the LED after HZ/4 */
-		mod_timer(&(info->timer), jiffies + HZ / 4);
+		mod_timer(&(info->timer), jiffies + msecs_to_jiffies(250));
 	} else {
 		/* Enable power LED */
 		outb(0x08 | 0x20, iobase + 0x30);
 
 		/* Stop the LED after HZ/2 */
-		mod_timer(&(info->timer), jiffies + HZ / 2);
+		mod_timer(&(info->timer), jiffies + msecs_to_jiffies(500));
 	}
 }
 
@@ -304,7 +304,7 @@ static void bluecard_write_wakeup(struct bluecard_info *info)
 
 			/* Wait until the command reaches the baseband */
 			prepare_to_wait(&wq, &wait, TASK_INTERRUPTIBLE);
-			schedule_timeout(HZ/10);
+			schedule_timeout(msecs_to_jiffies(100));
 			finish_wait(&wq, &wait);
 
 			/* Set baud on baseband */
@@ -318,7 +318,7 @@ static void bluecard_write_wakeup(struct bluecard_info *info)
 
 			/* Wait before the next HCI packet can be send */
 			prepare_to_wait(&wq, &wait, TASK_INTERRUPTIBLE);
-			schedule_timeout(HZ);
+			schedule_timeout(msecs_to_jiffies(1000));
 			finish_wait(&wq, &wait);
 		}
 

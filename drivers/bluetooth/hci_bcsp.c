@@ -314,7 +314,7 @@ static struct sk_buff *bcsp_dequeue(struct hci_uart *hu)
 								bt_cb(skb)->pkt_type);
 			if (nskb) {
 				__skb_queue_tail(&bcsp->unack, skb);
-				mod_timer(&bcsp->tbcsp, jiffies + HZ / 4);
+				mod_timer(&bcsp->tbcsp, jiffies + msecs_to_jiffies(250));
 				spin_unlock_irqrestore(&bcsp->unack.lock, flags);
 				return nskb;
 			} else {
