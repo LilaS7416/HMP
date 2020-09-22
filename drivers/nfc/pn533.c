@@ -2104,7 +2104,7 @@ static void pn533_wq_poll(struct work_struct *work)
 		return;
 
 	if (cur_mod->len == 0 && dev->poll_mod_count > 1)
-		mod_timer(&dev->listen_timer, jiffies + PN533_LISTEN_TIME * HZ);
+		mod_timer(&dev->listen_timer, jiffies + PN533_LISTEN_TIME * msecs_to_jiffies(1000));
 
 	return;
 }
@@ -2154,7 +2154,7 @@ static int pn533_start_poll(struct nfc_dev *nfc_dev,
 
 	/* Start listen timer */
 	if (!rc && cur_mod->len == 0 && dev->poll_mod_count > 1)
-		mod_timer(&dev->listen_timer, jiffies + PN533_LISTEN_TIME * HZ);
+		mod_timer(&dev->listen_timer, jiffies + PN533_LISTEN_TIME * msecs_to_jiffies(1000));
 
 	return rc;
 }

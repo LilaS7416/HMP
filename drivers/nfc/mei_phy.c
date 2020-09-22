@@ -244,7 +244,7 @@ static int mei_nfc_send(struct nfc_mei_phy *phy, u8 *buf, size_t length)
 		goto out;
 
 	if (!wait_event_interruptible_timeout(phy->send_wq,
-				phy->recv_req_id == phy->req_id, HZ)) {
+				phy->recv_req_id == phy->req_id, msec_to_jiffies(1000))) {
 		pr_err("NFC MEI command timeout\n");
 		err = -ETIME;
 	} else {
