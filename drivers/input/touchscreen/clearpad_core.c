@@ -67,8 +67,8 @@
 #define SYN_WAIT_TIME_AFTER_REGISTER_ACCESS	20
 #define SYN_CALIBRATION_SETUP_TIME	210
 #define SYN_CALIBRATION_WAIT		500
-#define SYN_CALIBRATION_WAIT_MS		(15 * 1000)
-#define SYN_CALIBRATION_EW_WAIT_MS	(10 * 1000)
+#define SYN_CALIBRATION_WAIT_MS		15000
+#define SYN_CALIBRATION_EW_WAIT_MS	10000
 #define SYN_CALIBRATION_BEFORE_HWRESET_WAIT	20
 #define SYN_SINGLE_TRANSACTION_SIZE	8
 #define SYN_FP_KEY_OFFSET		6
@@ -4161,7 +4161,7 @@ retry_reset:
 	if ((rc == -EAGAIN || rc == -EBUSY) &&
 	    reset->retry++ < SYN_RETRY_NUM_OF_RESET) {
 		LOGI(this, "schedule reset for retry (rc=%d)\n", rc);
-		schedule_delayed_work(&reset->work, msecs_to_jiffies(1000);
+		schedule_delayed_work(&reset->work, msecs_to_jiffies(1000));
 	} else if (rc) {
 		LOGE(this, "failed to execute %s '%s'\n",
 		     NAME_OF(clearpad_reset_name, reset->mode),
@@ -9487,7 +9487,7 @@ err_in_ctrl_session_begin:
 		if (this->post_probe.retry <= SYN_RETRY_NUM_OF_POST_PROBE) {
 			HWLOGI(this, "reschedule post probe (%d)\n",
 			       this->post_probe.retry);
-			schedule_delayed_work(&this->post_probe.work, msecs_to_jiffies(3000);
+			schedule_delayed_work(&this->post_probe.work, msecs_to_jiffies(3000));
 		} else {
 			this->post_probe.retry = 0;
 			HWLOGE(this, "stop post probe\n");
