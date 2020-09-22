@@ -34,6 +34,8 @@
 *.patch
 *.gcno
 *.ll
+*.zip
+Image.gz-dtb
 modules.builtin
 Module.symvers
 *.dwo
