@@ -4003,7 +4003,7 @@ void smblib_usb_plugin_hard_reset_locked(struct smb_charger *chg)
 #define PL_DELAY_MS			30000
 #if defined(CONFIG_SOMC_CHARGER_EXTENSION)
 #define REMOVAL_DELAY_MS			2000
-#define REMOVAL_WAKE_PERIOD		(3 * HZ)
+#define REMOVAL_WAKE_PERIOD		3000
 #endif
 void smblib_usb_plugin_locked(struct smb_charger *chg)
 {
@@ -4075,7 +4075,7 @@ void smblib_usb_plugin_locked(struct smb_charger *chg)
 #if defined(CONFIG_SOMC_CHARGER_EXTENSION)
 		smblib_somc_lrc_check(chg);
 		wake_lock_timeout(
-			&chg->usb_removal_wakelock.lock, REMOVAL_WAKE_PERIOD);
+			&chg->usb_removal_wakelock.lock, msecs_to_jiffies(REMOVAL_WAKE_PERIOD));
 		schedule_delayed_work(&chg->usb_removal_work,
 					msecs_to_jiffies(REMOVAL_DELAY_MS));
 
