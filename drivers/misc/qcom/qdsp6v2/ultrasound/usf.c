@@ -894,7 +894,7 @@ static int __usf_set_us_detection(struct usf_type *usf,
 						USF_ADSP_RESTART_STATE));
 	} else {
 		if (detect_info->detect_timeout == USF_DEFAULT_TIMEOUT)
-			timeout = msec_to_jiffies(USF_TIMEOUT_JIFFIES);
+			timeout = msecs_to_jiffies(USF_TIMEOUT_JIFFIES);
 		else
 			timeout = detect_info->detect_timeout * msecs_to_jiffies(1000);
 	}
@@ -1156,7 +1156,7 @@ static int __usf_get_tx_update(struct usf_type *usf,
 		else {
 			prev_jiffies = jiffies;
 			if (upd_tx_info->timeout == USF_DEFAULT_TIMEOUT) {
-				timeout = msec_to_jiffies(USF_TIMEOUT_JIFFIES);
+				timeout = msecs_to_jiffies(USF_TIMEOUT_JIFFIES);
 				rc = wait_event_timeout(
 						usf_xx->wait,
 						(usf_xx->prev_region !=
@@ -1266,7 +1266,7 @@ static int __usf_set_rx_update(struct usf_xx_type *usf_xx,
 			usf_xx->usc,
 			&(upd_rx_info->free_region)) ||
 		(usf_xx->usf_state == USF_IDLE_STATE),
-		msec_to_jiffies(USF_TIMEOUT_JIFFIES));
+		msecs_to_jiffies(USF_TIMEOUT_JIFFIES));
 
 	if (!rc) {
 		rc = -ETIME;

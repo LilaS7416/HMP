@@ -2280,7 +2280,7 @@ int ipa3_straddle_boundary(u32 start, u32 end, u32 boundary)
  */
 void ipa3_bam_reg_dump(void)
 {
-	static DEFINE_RATELIMIT_STATE(_rs, msecs_to_jiffies((500000), 1);
+	static DEFINE_RATELIMIT_STATE(_rs, 500*HZ, 1);
 
 	if (__ratelimit(&_rs)) {
 		IPA_ACTIVE_CLIENTS_INC_SIMPLE();

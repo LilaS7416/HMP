@@ -1475,7 +1475,7 @@ int q6usm_get_us_stream_param(int dir, struct us_client *usc,
 	if (!rc) {
 		rc = -ETIME;
 		pr_err("%s: CMD_GET_PARAM: timeout=%d\n",
-			__func__, msecs_to_jiffies(Q6USM_TIMEOUT_JIFFIES);
+			__func__, msecs_to_jiffies(Q6USM_TIMEOUT_JIFFIES));
 	} else
 		rc = 0;
 
