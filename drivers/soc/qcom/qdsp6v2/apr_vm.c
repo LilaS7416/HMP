@@ -344,11 +344,11 @@ int apr_wait_for_device_up(int dest_id)
 	if (dest_id == APR_DEST_MODEM)
 		rc = wait_event_interruptible_timeout(modem_wait,
 				    (apr_get_modem_state() == APR_SUBSYS_UP),
-				    (1 * HZ));
+				    msecs_to_jiffies(1000));
 	else if (dest_id == APR_DEST_QDSP6)
 		rc = wait_event_interruptible_timeout(dsp_wait,
 				    (apr_get_q6_state() == APR_SUBSYS_UP),
-				    (1 * HZ));
+				    msecs_to_jiffies(1000));
 	else
 		pr_err("%s: unknown dest_id %d\n", __func__, dest_id);
 	/* returns left time */
@@ -360,7 +360,7 @@ static int apr_vm_nb_receive(int32_t handle, void *dest_buff,
 {
 	int rc;
 	uint32_t dest_buff_bytes = *size_bytes;
-	unsigned long delay = jiffies + (HZ / 2);
+	unsigned long delay = jiffies + msecs_to_jiffies(500);
 
 	do {
 		*size_bytes = dest_buff_bytes;
@@ -526,7 +526,7 @@ static int apr_vm_cb_thread(void *data)
 {
 	uint32_t apr_rx_buf_len;
 	struct aprv2_vm_ack_rx_pkt_available_t apr_ack;
-	unsigned long delay = jiffies + (HZ / 2);
+	unsigned long delay = jiffies + msecs_to_jiffies(500);
 	int status = 0;
 	int ret = 0;
 

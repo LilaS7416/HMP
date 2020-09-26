@@ -83,7 +83,7 @@ static int msm_audio_ion_smmu_map(struct ion_client *client,
 	struct msm_audio_smmu_vm_map_cmd_rsp cmd_rsp;
 	struct msm_audio_smmu_map_data *map_data = NULL;
 	struct msm_audio_smmu_vm_map_cmd smmu_map_cmd;
-	unsigned long delay = jiffies + (HZ / 2);
+	unsigned long delay = jiffies + msecs_to_jiffies(500);
 
 	rc = ion_handle_get_size(client, handle, len);
 	if (rc) {
@@ -185,7 +185,7 @@ static int msm_audio_ion_smmu_unmap(struct ion_client *client,
 	struct msm_audio_smmu_vm_unmap_cmd_rsp cmd_rsp;
 	struct msm_audio_smmu_map_data *map_data, *next;
 	struct msm_audio_smmu_vm_unmap_cmd smmu_unmap_cmd;
-	unsigned long delay = jiffies + (HZ / 2);
+	unsigned long delay = jiffies + msecs_to_jiffies(500);
 
 	/*
 	 * Though list_for_each_entry_safe is delete safe, lock
