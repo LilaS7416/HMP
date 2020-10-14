@@ -612,9 +612,6 @@ endif # $(dot-config)
 all: vmlinux
 
 ifeq ($(cc-name),clang)
-ifeq ($(CONFIG_ARCH_MSM8998), y)
-KBUILD_CFLAGS	+= -mcpu=cortex-a53
-endif
 ifneq ($(CROSS_COMPILE),)
 CLANG_TRIPLE	?= $(CROSS_COMPILE)
 CLANG_FLAGS    += --target=$(notdir $(CLANG_TRIPLE:%-=%))
