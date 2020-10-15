@@ -17,17 +17,11 @@
 #include <linux/init.h>
 #include <linux/cpufreq.h>
 #include <linux/cpu.h>
-#include <linux/kthread.h>
 #include <linux/sched.h>
 #include <linux/moduleparam.h>
 #include <linux/slab.h>
 #include <linux/input.h>
 #include <linux/time.h>
-#ifdef CONFIG_STATE_NOTIFIER
-#include <linux/state_notifier.h>
-#endif
-
-#include "../../kernel/sched/sched.h"
 
 struct cpu_sync {
 	int cpu;
@@ -36,9 +30,10 @@ struct cpu_sync {
 };
 
 static DEFINE_PER_CPU(struct cpu_sync, sync_info);
+static struct workqueue_struct *cpu_boost_wq;
 
-static unsigned int input_boost_enabled = 1;
-module_param(input_boost_enabled, uint, 0644);
+static struct work_struct input_boost_work;
+static bool input_boost_enabled;
 
 static unsigned int input_boost_ms = 40;
 module_param(input_boost_ms, uint, 0644);
@@ -51,15 +46,12 @@ static bool sched_boost_active;
 static struct delayed_work input_boost_rem;
 static u64 last_input_time;
 
-static struct kthread_work input_boost_work;
-static struct kthread_worker cpu_boost_worker;
-static struct task_struct *cpu_boost_worker_thread;
-
 static int set_input_boost_freq(const char *buf, const struct kernel_param *kp)
 {
 	int i, ntokens = 0;
 	unsigned int val, cpu;
 	const char *cp = buf;
+	bool enabled = false;
 
 	while ((cp = strpbrk(cp + 1, " :")))
 		ntokens++;
@@ -70,7 +62,7 @@ static int set_input_boost_freq(const char *buf, const struct kernel_param *kp)
 			return -EINVAL;
 		for_each_possible_cpu(i)
 			per_cpu(sync_info, i).input_boost_freq = val;
-		goto out;
+		goto check_enable;
 	}
 
 	/* CPU:value pair */
@@ -89,7 +81,15 @@ static int set_input_boost_freq(const char *buf, const struct kernel_param *kp)
 		cp++;
 	}
 
-out:
+check_enable:
+	for_each_possible_cpu(i) {
+		if (per_cpu(sync_info, i).input_boost_freq) {
+			enabled = true;
+			break;
+		}
+	}
+	input_boost_enabled = enabled;
+
 	return 0;
 }
 
@@ -137,15 +137,6 @@ static int boost_adjust_notify(struct notifier_block *nb, unsigned long val,
 		if (!ib_min)
 			break;
 
-		ib_min = min(ib_min, policy->max);
-
-		/*
-		 * If the new boosted freq is below or equal to the current
-		 * min freq, bail early
-		 */
-		if (ib_min <= policy->min)
-			break;
-
 		pr_debug("CPU%u policy min before boost: %u kHz\n",
 			 cpu, policy->min);
 		pr_debug("CPU%u boost min: %u kHz\n", cpu, ib_min);
@@ -162,7 +153,6 @@ static int boost_adjust_notify(struct notifier_block *nb, unsigned long val,
 
 static struct notifier_block boost_adjust_nb = {
 	.notifier_call = boost_adjust_notify,
-	.priority = INT_MAX-2,
 };
 
 static void update_policy_online(void)
@@ -172,13 +162,8 @@ static void update_policy_online(void)
 	/* Re-evaluate policy to trigger adjust notifier for online CPUs */
 	get_online_cpus();
 	for_each_online_cpu(i) {
-		/*
-		 * Both clusters have synchronous cores, only update
-		 * the frequency for one core in each cluster.
-		 */
-		if (i == 0 || i == 4) {
-			cpufreq_update_policy(i);
-		}
+		pr_debug("Updating policy for CPU%d\n", i);
+		cpufreq_update_policy(i);
 	}
 	put_online_cpus();
 }
@@ -206,13 +191,10 @@ static void do_input_boost_rem(struct work_struct *work)
 	}
 }
 
-static void do_input_boost(struct kthread_work *work)
+static void do_input_boost(struct work_struct *work)
 {
 	unsigned int i, ret;
 	struct cpu_sync *i_sync_info;
-
-	if (!input_boost_ms)
-		return;
 
 	cancel_delayed_work_sync(&input_boost_rem);
 	if (sched_boost_active) {
@@ -224,17 +206,6 @@ static void do_input_boost(struct kthread_work *work)
 	pr_debug("Setting input boost min for all CPUs\n");
 	for_each_possible_cpu(i) {
 		i_sync_info = &per_cpu(sync_info, i);
-
-		// cpu 0-3 -> silver cluster
-		// cpu 4-7 -> gold cluster
-		// to save power there's no point in boosting the
-		// gold cluster core if it doesn't have any runnable
-		// thread at this point in time
-		// since inputs are fairly common we might save some
-		// juice in the long run
-		if (i >= 4 && cpu_rq(i)->nr_running == 0)
-			continue;
-
 		i_sync_info->input_boost_min = i_sync_info->input_boost_freq;
 	}
 
@@ -250,19 +221,14 @@ static void do_input_boost(struct kthread_work *work)
 			sched_boost_active = true;
 	}
 
-	queue_delayed_work(system_power_efficient_wq,
-		&input_boost_rem, msecs_to_jiffies(input_boost_ms));
+	queue_delayed_work(cpu_boost_wq, &input_boost_rem,
+					msecs_to_jiffies(input_boost_ms));
 }
 
 static void cpuboost_input_event(struct input_handle *handle,
 		unsigned int type, unsigned int code, int value)
 {
 	u64 now;
-
-#ifdef CONFIG_STATE_NOTIFIER
-	if (state_suspended)
-		return;
-#endif
 
 	if (!input_boost_enabled)
 		return;
@@ -271,10 +237,10 @@ static void cpuboost_input_event(struct input_handle *handle,
 	if ((now - last_input_time) < (input_boost_ms * USEC_PER_MSEC))
 		return;
 
-	if (queuing_blocked(&cpu_boost_worker, &input_boost_work))
+	if (work_pending(&input_boost_work))
 		return;
 
-	queue_kthread_work(&cpu_boost_worker, &input_boost_work);
+	queue_work(cpu_boost_wq, &input_boost_work);
 	last_input_time = ktime_to_us(ktime_get());
 }
 
@@ -353,17 +319,12 @@ static int cpu_boost_init(void)
 {
 	int cpu, ret;
 	struct cpu_sync *s;
-	struct sched_param param = { .sched_priority = MAX_RT_PRIO - 2 };
 
-	init_kthread_worker(&cpu_boost_worker);
-	cpu_boost_worker_thread = kthread_run(kthread_worker_fn,
-		&cpu_boost_worker, "cpu_boost_worker_thread");
-	if (IS_ERR(cpu_boost_worker_thread))
+	cpu_boost_wq = alloc_workqueue("cpuboost_wq", WQ_HIGHPRI, 0);
+	if (!cpu_boost_wq)
 		return -EFAULT;
 
-	sched_setscheduler(cpu_boost_worker_thread, SCHED_FIFO, &param);
-
-	init_kthread_work(&input_boost_work, do_input_boost);
+	INIT_WORK(&input_boost_work, do_input_boost);
 	INIT_DELAYED_WORK(&input_boost_rem, do_input_boost_rem);
 
 	for_each_possible_cpu(cpu) {
