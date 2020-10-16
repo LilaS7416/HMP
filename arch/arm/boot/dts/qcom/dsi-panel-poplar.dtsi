@@ -94,7 +94,6 @@
 		qcom,mdss-dsi-t-clk-pre = <0x29>;
 
 		qcom,panel-supply-entries = <&dsi_panel_pwr_supply_hybrid_incell>;
-		qcom,mdss-dsi-lp11-init;
 		qcom,mdss-dsi-bl-min-level = <1>;
 		qcom,mdss-dsi-bl-max-level = <4095>;
 		qcom,mdss-brightness-max-level = <4095>;
@@ -163,6 +162,9 @@
 
 		somc,mdss-dsi-disp-on-in-hs = <0>;
 		somc,mdss-dsi-wait-time-before-post-on-cmd = <0>;
+		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
+		qcom,panel-allow-phy-poweroff;
 	};
 
 	/* Sharp ID9 */
@@ -224,7 +226,6 @@
 		qcom,mdss-dsi-t-clk-pre = <0x29>;
 
 		qcom,panel-supply-entries = <&dsi_panel_pwr_supply_full_incell>;
-		qcom,mdss-dsi-lp11-init;
 		qcom,mdss-dsi-bl-min-level = <1>;
 		qcom,mdss-dsi-bl-max-level = <4095>;
 		qcom,mdss-brightness-max-level = <4095>;
@@ -285,6 +286,9 @@
 		somc,driver-ic-rclk = <14000000>;
 		somc,driver-ic-vtp = <682>;
 		somc,change-fps-rtn-pos = <2 1>;
+		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
+		qcom,panel-allow-phy-poweroff;
 	};
 
 	/* Default */
@@ -360,7 +364,6 @@
 		qcom,mdss-dsi-t-clk-pre = <0x29>;
 
 		qcom,panel-supply-entries = <&dsi_panel_pwr_supply_hybrid_incell>;
-		qcom,mdss-dsi-lp11-init;
 		qcom,mdss-dsi-bl-min-level = <1>;
 		qcom,mdss-dsi-bl-max-level = <4095>;
 		qcom,mdss-brightness-max-level = <4095>;
@@ -411,5 +414,8 @@
 
 		somc,mdss-dsi-disp-on-in-hs = <0>;
 		somc,mdss-dsi-wait-time-before-post-on-cmd = <0>;
+		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
+		qcom,panel-allow-phy-poweroff;
 	};
 };
