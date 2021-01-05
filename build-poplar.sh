@@ -12,7 +12,7 @@ echo
 echo "Issue Build Commands"
 echo
 
-export CLANG_PATH=/home/andrea/android/linux-x86/clang-r383902/bin
+export CLANG_PATH=/home/andrea/android/linux-x86/clang-r399163b/bin
 export PATH=${CLANG_PATH}:${PATH}
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export CROSS_COMPILE=/home/andrea/android/aarch64-linux-android-4.9/bin/aarch64-linux-android-
